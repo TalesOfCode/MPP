@@ -1,2 +1,2 @@
 # capro-back
-A simple symfony 
+A simple symfony personal back project.
