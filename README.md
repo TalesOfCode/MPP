@@ -19,7 +19,7 @@ Personnaly, I like adminer because it's simple to install and configure.
 Check the official site for changing the default theming.
 
 ## Adminer install by command line (latest version)
-```
+```Batchfile
 sudo mkdir /usr/share/adminer
 sudo wget "http://www.adminer.org/latest.php" -O /usr/share/adminer/latest.php
 sudo ln -s /usr/share/adminer/latest.php /usr/share/adminer/adminer.php
@@ -33,7 +33,7 @@ Just go to http://localhost/adminer.php and connect to your database
 # Doctrine setup
 
 Go to capro-back/config/packages/doctrine.yaml and setup the config under dbal with the following:
-```
+```YAML
 dbname: <name of your local database>
 server_version: <version of your SGBD>
 user: <Connection user>
@@ -42,7 +42,7 @@ driver: <pdo_mysql if you use mysql db>
 ```
 
 Then, run this to setup database:
-```
+```Batchfile
 php bin/console doctrine:migration:migrate
 ```
 
