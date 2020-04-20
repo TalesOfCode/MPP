@@ -12,9 +12,14 @@ First, install symfony with the following instructions : https://symfony.com/doc
 
 Then, run composer install for installing all dependencies.
 
-After that, you need to setup a mysql DB on your computer : https://dev.mysql.com/doc/mysql-apt-repo-quick-guide/en/#apt-repo-fresh-install
+After that, you need to setup a mysql DB on your computer :
 
-When your db works, You can install in your apache server an IHM for administrate it.
+```
+sudo apt install mysql-server
+sudo mysql_secure_installation
+```
+
+When your mysql works, You can install in your apache server an IHM for administrate it.
 Personnaly, I like adminer because it's simple to install and configure.
 Check the official site for changing the default theming.
 
@@ -29,7 +34,7 @@ sudo service apache2 restart
 ```
 
 ## Adminer setup
-Just go to http://localhost/adminer.php and connect to your database
+Just go to http://localhost/adminer.php and create a db or connect to it
 
 # Doctrine setup
 
