@@ -1,4 +1,4 @@
-# capro-back
+# My Project's Platform
 
 A symfony back project for a web platform.
 
@@ -27,12 +27,14 @@ echo "Alias /adminer.php /usr/share/adminer/adminer.php" | sudo tee /etc/apache2
 sudo a2enconf adminer.conf
 ```
 
+puis redémarrez apache (sudo service apache2 restart)
+
 ## Adminer setup
 Just go to http://localhost/adminer.php and connect to your database
 
 # Doctrine setup
 
-Go to capro-back/config/packages/doctrine.yaml and setup the config under dbal with the following:
+Go to MPP/config/packages/doctrine.yaml and setup the config under dbal with the following:
 ```YAML
 dbname: <name of your local database>
 server_version: <version of your SGBD>
