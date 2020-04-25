@@ -51,7 +51,7 @@ class User implements UserInterface
     private $avatar;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="boolean", options={"default":false})
      */
     private $status;
 
@@ -65,9 +65,20 @@ class User implements UserInterface
      */
     private $comments;
 
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $banEndDate;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Project", mappedBy="closedBy")
+     */
+    private $projects;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
+        $this->projects = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -179,12 +190,12 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getStatus(): ?int
+    public function getStatus(): ?bool
     {
         return $this->status;
     }
 
-    public function setStatus(int $status): self
+    public function setStatus(bool $status): self
     {
         $this->status = $status;
 
@@ -228,6 +239,49 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($comment->getCreatedBy() === $this) {
                 $comment->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getBanEndDate(): ?\DateTimeInterface
+    {
+        return $this->banEndDate;
+    }
+
+    public function setBanEndDate(?\DateTimeInterface $banEndDate): self
+    {
+        $this->banEndDate = $banEndDate;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Project[]
+     */
+    public function getProjects(): Collection
+    {
+        return $this->projects;
+    }
+
+    public function addProject(Project $project): self
+    {
+        if (!$this->projects->contains($project)) {
+            $this->projects[] = $project;
+            $project->setClosedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProject(Project $project): self
+    {
+        if ($this->projects->contains($project)) {
+            $this->projects->removeElement($project);
+            // set the owning side to null (unless already changed)
+            if ($project->getClosedBy() === $this) {
+                $project->setClosedBy(null);
             }
         }
 
