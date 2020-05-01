@@ -52,6 +52,12 @@ class Comment
      */
     private $deletedBy;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Subject", inversedBy="comments")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $subject;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -137,6 +143,18 @@ class Comment
     public function setDeletedBy(?User $deletedBy): self
     {
         $this->deletedBy = $deletedBy;
+
+        return $this;
+    }
+
+    public function getSubject(): ?Subject
+    {
+        return $this->subject;
+    }
+
+    public function setSubject(?Subject $subject): self
+    {
+        $this->subject = $subject;
 
         return $this;
     }
