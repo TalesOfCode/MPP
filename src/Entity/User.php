@@ -81,9 +81,9 @@ class User implements UserInterface
     private $news;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\History", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="App\Entity\Action", mappedBy="user")
      */
-    private $histories;
+    private $userAction;
 
     public function __construct()
     {
@@ -91,6 +91,7 @@ class User implements UserInterface
         $this->projects = new ArrayCollection();
         $this->news = new ArrayCollection();
         $this->histories = new ArrayCollection();
+        $this->userAction = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -332,30 +333,30 @@ class User implements UserInterface
     }
 
     /**
-     * @return Collection|History[]
+     * @return Collection|Action[]
      */
-    public function getHistories(): Collection
+    public function getUserAction(): Collection
     {
-        return $this->histories;
+        return $this->userAction;
     }
 
-    public function addHistory(History $history): self
+    public function addUserAction(Action $userAction): self
     {
-        if (!$this->histories->contains($history)) {
-            $this->histories[] = $history;
-            $history->setUser($this);
+        if (!$this->userAction->contains($userAction)) {
+            $this->userAction[] = $userAction;
+            $userAction->setUser($this);
         }
 
         return $this;
     }
 
-    public function removeHistory(History $history): self
+    public function removeUserAction(Action $userAction): self
     {
-        if ($this->histories->contains($history)) {
-            $this->histories->removeElement($history);
+        if ($this->userAction->contains($userAction)) {
+            $this->userAction->removeElement($userAction);
             // set the owning side to null (unless already changed)
-            if ($history->getUser() === $this) {
-                $history->setUser(null);
+            if ($userAction->getUser() === $this) {
+                $userAction->setUser(null);
             }
         }
 

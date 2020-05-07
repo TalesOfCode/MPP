@@ -5,9 +5,9 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\HistoryRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\ActionRepository")
  */
-class History
+class Action
 {
     /**
      * @ORM\Id()
@@ -22,7 +22,7 @@ class History
     private $status;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="histories")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="userAction")
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
@@ -38,14 +38,14 @@ class History
     private $method;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $comment;
-
-    /**
      * @ORM\Column(type="json", nullable=true)
      */
     private $parameters = [];
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $comment;
 
     public function getId(): ?int
     {
@@ -100,18 +100,6 @@ class History
         return $this;
     }
 
-    public function getComment(): ?string
-    {
-        return $this->comment;
-    }
-
-    public function setComment(?string $comment): self
-    {
-        $this->comment = $comment;
-
-        return $this;
-    }
-
     public function getParameters(): ?array
     {
         return $this->parameters;
@@ -120,6 +108,18 @@ class History
     public function setParameters(?array $parameters): self
     {
         $this->parameters = $parameters;
+
+        return $this;
+    }
+
+    public function getComment(): ?string
+    {
+        return $this->comment;
+    }
+
+    public function setComment(?string $comment): self
+    {
+        $this->comment = $comment;
 
         return $this;
     }
