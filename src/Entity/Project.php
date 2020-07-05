@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -45,6 +47,22 @@ class Project
      * @ORM\Column(type="boolean")
      */
     private $status;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Subject", mappedBy="project")
+     */
+    private $projectSubject;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\projectVisibility", inversedBy="projects")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $visibility;
+
+    public function __construct()
+    {
+        $this->projectSubject = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -119,6 +137,49 @@ class Project
     public function setStatus(bool $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Subject[]
+     */
+    public function getProjectSubject(): Collection
+    {
+        return $this->projectSubject;
+    }
+
+    public function addProjectSubject(Subject $projectSubject): self
+    {
+        if (!$this->projectSubject->contains($projectSubject)) {
+            $this->projectSubject[] = $projectSubject;
+            $projectSubject->setProject($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProjectSubject(Subject $projectSubject): self
+    {
+        if ($this->projectSubject->contains($projectSubject)) {
+            $this->projectSubject->removeElement($projectSubject);
+            // set the owning side to null (unless already changed)
+            if ($projectSubject->getProject() === $this) {
+                $projectSubject->setProject(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getVisibility(): ?projectVisibility
+    {
+        return $this->visibility;
+    }
+
+    public function setVisibility(?projectVisibility $visibility): self
+    {
+        $this->visibility = $visibility;
 
         return $this;
     }

@@ -31,6 +31,12 @@ class Comment
      */
     private $deletionDate;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Subject", inversedBy="subjectComments")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $subject;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -68,6 +74,18 @@ class Comment
     public function setDeletionDate(?\DateTimeInterface $deletionDate): self
     {
         $this->deletionDate = $deletionDate;
+
+        return $this;
+    }
+
+    public function getSubject(): ?Subject
+    {
+        return $this->subject;
+    }
+
+    public function setSubject(?Subject $subject): self
+    {
+        $this->subject = $subject;
 
         return $this;
     }

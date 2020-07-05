@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -30,6 +32,22 @@ class Subject
      * @ORM\Column(type="string", length=255)
      */
     private $title;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Project", inversedBy="projectSubject")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $project;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="subject")
+     */
+    private $subjectComments;
+
+    public function __construct()
+    {
+        $this->subjectComments = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -68,6 +86,49 @@ class Subject
     public function setTitle(string $title): self
     {
         $this->title = $title;
+
+        return $this;
+    }
+
+    public function getProject(): ?Project
+    {
+        return $this->project;
+    }
+
+    public function setProject(?Project $project): self
+    {
+        $this->project = $project;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Comment[]
+     */
+    public function getSubjectComments(): Collection
+    {
+        return $this->subjectComments;
+    }
+
+    public function addSubjectComment(Comment $subjectComment): self
+    {
+        if (!$this->subjectComments->contains($subjectComment)) {
+            $this->subjectComments[] = $subjectComment;
+            $subjectComment->setSubject($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSubjectComment(Comment $subjectComment): self
+    {
+        if ($this->subjectComments->contains($subjectComment)) {
+            $this->subjectComments->removeElement($subjectComment);
+            // set the owning side to null (unless already changed)
+            if ($subjectComment->getSubject() === $this) {
+                $subjectComment->setSubject(null);
+            }
+        }
 
         return $this;
     }

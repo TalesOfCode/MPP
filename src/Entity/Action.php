@@ -36,6 +36,12 @@ class Action
      */
     private $comment;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\ActionStatus", inversedBy="actions")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $status;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -85,6 +91,18 @@ class Action
     public function setComment(?string $comment): self
     {
         $this->comment = $comment;
+
+        return $this;
+    }
+
+    public function getStatus(): ?ActionStatus
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?ActionStatus $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }
